@@ -60,7 +60,7 @@ Projemiz hazır !
 
 ## API Kullanımı
 
-### Sipariş Oluştur (SearchAirport)
+### Arama işlemi (SearchAirport)
 
 Burada veritabanında bulunan verileri field alanına göre sorgulayıp getirebilirsiniz.
 
@@ -87,12 +87,14 @@ Burada veritabanında bulunan verileri field alanına göre sorgulayıp getirebi
 
   
 ```http
-{
-    "id": 100,
-    "shortcode": "AEH",
-    "name": "Abéché Airport",
-    "city": "Abéché",
-    "country": "Chad",
-    "location": "Abéché, Chad"
-}
+[
+    {
+        "id": 100,
+        "shortcode": "AEH",
+        "name": "Abéché Airport",
+        "city": "Abéché",
+        "country": "Chad",
+        "location": "Abéché, Chad"
+    }
+]
 ```
