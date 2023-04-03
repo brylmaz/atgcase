@@ -14,11 +14,11 @@ class Airport
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 3)]
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 3,
-        max: 3,
+        min: 255,
+        max: 255,
         minMessage: 'Your shortcode must be at least {{ limit }} characters long',
         maxMessage: 'Your shortcode cannot be longer than {{ limit }} characters',
     )]
