@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AirportRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AirportRepository::class)]
 class Airport
@@ -13,21 +14,42 @@ class Airport
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 3)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 3,
+        minMessage: 'Your shortcode must be at least {{ limit }} characters long',
+        maxMessage: 'Your shortcode cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\Regex(
+     pattern:"/^[A-Z]/",
+     match:false,
+     message:"Your name cannot contain a number"
+    )]
     private ?string $shortcode = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $location = null;
 
+    public function setId(int $id): ?int
+    {
+        $this->id = $id;
+        return $this->id;
+    }
     public function getId(): ?int
     {
         return $this->id;

@@ -11,7 +11,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $path = '/srv/app/src/Storage/csv/airports.csv';
-        $handle = fopen($path, "r"); // open in readonly mode
+        $handle = fopen($path, "r");
+
         while (($row = fgetcsv($handle)) !== false) {
             $airport = new Airport();
             $airport->setShortcode($row[1]);
@@ -21,10 +22,8 @@ class AppFixtures extends Fixture
             $airport->setLocation($row[5]);
             $manager->persist($airport);
         }
+
         fclose($handle);
-
-
-
         $manager->flush();
     }
 }
