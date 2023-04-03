@@ -60,7 +60,7 @@ Projemiz hazır !
 
 ## API Kullanımı
 
-### Sipariş Oluştur (SearchAirport)
+### Arama işlemi (SearchAirport)
 
 Burada veritabanında bulunan verileri field alanına göre sorgulayıp getirebilirsiniz.
 
