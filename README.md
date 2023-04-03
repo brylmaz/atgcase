@@ -1,46 +1,98 @@
-# Symfony Docker
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
+# ATGCASE
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+Bu Proje ATG Turkey Şirketi tarafından bana case çalışması olarak gönderilmiştir. Bu bağlamda geliştirilmiştir.
 
-## Getting Started
+Eksikler ve hatalar için issue açabilir, benimle bu projeyi geliştirmemde yardımcı olabilirsiniz.
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up` (the logs will be displayed in the current shell)
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
-## Features
+## Kullanılan Teknolojiler
 
-* Production, development and CI ready
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and in prod!)
-* HTTP/2, HTTP/3 and [Preload](https://symfony.com/doc/current/web_link.html) support
-* Built-in [Mercure](https://symfony.com/doc/current/mercure.html) hub
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Just 2 services (PHP FPM and Caddy server)
-* Super-readable configuration
 
-**Enjoy!**
 
-## Docs
+ PHP(8.2.4), SYMFONY, DOCKER, POSTGRESQL, CADDY SERVER
 
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Troubleshooting](docs/troubleshooting.md)
+   
+## Rozetler
 
-## License
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-Symfony Docker is available under the MIT License.
+[![GPLv3 License](https://img.shields.io/badge/php-8.2.4-blue)](https://opensource.org/licenses/)
 
-## Credits
+[![AGPL License](https://img.shields.io/badge/symfony-6.2.7-red)](http://www.gnu.org/licenses/agpl-3.0)
 
-Created by [Kévin Dunglas](https://dunglas.fr), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+## Kurulum & Dağıtım
+
+Öncelikle local bilgisayarınıza projeyi clone edin.
+
+```bash
+  git clone https://github.com/brylmaz/atgcase.git
+
+```
+Bilgisayarınızda Docker Desktop yüklü olmalıdır
+daha sonra kök dizinde bulunan docker-compose.yml  dosyası bulunmaktadır. 
+
+Komut satırı açın ve aşağıdaki kodu yazın
+
+```bash
+  docker compose up 
+
+```
+### NOT
+Terminalde aşağıdaki kodu görene kadar bitmesini bekleyin.
+```
+atgcase-php-1       | - -  03/Apr/2023:13:12:56 +0000 "GET /ping" 200
+```
+
+
+Proje ayağa kalktıktan sonra sırasıyla aşağıdaki kodları docker da çalışan main container cli (atgcase-php-1 container terminali) ne yazın.
+
+```bash
+  php bin/console doctrine:migrations:diff  // Bu komut, mevcut veritabanı şemasını ve varsa model sınıflarını karşılaştırarak bir veritabanı migrations dosyası oluşturur.
+  
+  php bin/console doctrine:migrations:migrate    // Bu komut, migrations dosyasındaki değişiklikleri veritabanına uygular ve tabloyu oluşturur.
+  
+  php bin/console doctrine:fixtures:load   // Bu komut varsayılan olarak tüm fixture dosyalarını yükler ve mevcut verileri siler.
+  
+```
+
+Projemiz hazır !
+
+## API Kullanımı
+
+### Sipariş Oluştur (SearchAirport)
+
+Burada veritabanında bulunan verileri field alanına göre sorgulayıp getirebilirsiniz.
+
+#### Endpoint
+```http
+  POST https://localhost/api/v1/search
+```
+
+| Parametre | Tip     | Açıklama                |
+| :-------- | :------- | :------------------------- |
+| `type` | `string` | **Gerekli**. **Sadece(id,name,country,shortcode,city)**.field alanı |
+| `searchString` | `string` | **Gerekli**. Arama yapılacak kelime. |
+
+#### Request Example
+
+```http
+{
+   "type" : "id",
+   "searchString" : "100"
+}
+```
+
+#### Response Example
+
+  
+```http
+{
+    "id": 100,
+    "shortcode": "AEH",
+    "name": "Abéché Airport",
+    "city": "Abéché",
+    "country": "Chad",
+    "location": "Abéché, Chad"
+}
+```
