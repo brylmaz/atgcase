@@ -87,12 +87,14 @@ Burada veritabanında bulunan verileri field alanına göre sorgulayıp getirebi
 
   
 ```http
-{
-    "id": 100,
-    "shortcode": "AEH",
-    "name": "Abéché Airport",
-    "city": "Abéché",
-    "country": "Chad",
-    "location": "Abéché, Chad"
-}
+[
+    {
+        "id": 100,
+        "shortcode": "AEH",
+        "name": "Abéché Airport",
+        "city": "Abéché",
+        "country": "Chad",
+        "location": "Abéché, Chad"
+    }
+]
 ```
