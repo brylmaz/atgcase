@@ -10,21 +10,28 @@ use Symfony\Component\Serializer\Serializer;
 
 class AirportDto
 {
-    public function Airportdto(Airport $data){
+    public function Airportdto(array $data)
+    {
+        $responseArray = array();
 
-        $airport = new Airport();
-        $airport->setId($data->getId());
-        $airport->setShortcode($data->getShortcode());
-        $airport->setName($data->getName());
-        $airport->setCity($data->getCity());
-        $airport->setCountry($data->getCountry());
-        $airport->setLocation($data->getLocation());
+        foreach ($data as $airport) {
+            $airportEntity = new Airport();
+            $airportEntity->setId($airport->getId());
+            $airportEntity->setShortcode($airport->getShortcode());
+            $airportEntity->setName($airport->getName());
+            $airportEntity->setCity($airport->getCity());
+            $airportEntity->setCountry($airport->getCountry());
+            $airportEntity->setLocation($airport->getLocation());
+
+            $responseArray[] = $airportEntity;
+        }
 
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
-        $reports = $serializer->serialize($airport, 'json');
+        $reports = $serializer->serialize($responseArray, 'json');
+
         return $reports;
     }
 }

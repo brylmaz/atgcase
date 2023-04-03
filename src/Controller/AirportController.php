@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 use App\Dto\AirportDto;
-use App\Entity\Airport;
 use App\Exception\AirportOrmFailException;
 use App\Repository\AirportRepository;
 use App\Validator\AirportValidator;
-use Doctrine\DBAL\Exception\ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,28 +29,22 @@ class AirportController extends AbstractController
     }
 
     #[Route('/api/v1/search', name: 'airport_search',methods: ['POST'])]
-//    #[QueryParam(name:"type", requirements:"[A-Z]+", nullable:false)]
-//    #[QueryParam(name:"searchString", requirements:"[A-Z]+", nullable:false)]
     public function getAirportInfoByField(Request $request)
     {
         $this->airportValidator->getAirportInfoByFieldValid($request);
 
-
-
         try {
             $request = $request->toArray();
-            $airport = $this->airportRepository->findOneBy(
-                [$request['type'] => $request['searchString']]
-            );
+            $airport = $this->airportRepository->findBy([$request['type'] => $request['searchString']]);
         }
         catch (Doctrine_Connection_Exception $e){
             throw new AirportOrmFailException("Bir Hata Oluştu");
         }
 
-
-        if ($airport==null){
+        if (empty($airport)){
             throw new AirportOrmFailException("Girilen değerler ile ilgili bir kayıt bulunamadı.");
         }
+
         $reports = $this->airportDto->Airportdto($airport);
 
         return new Response($reports);
