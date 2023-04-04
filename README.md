@@ -29,8 +29,7 @@ Eksikler ve hatalar için issue açabilir, benimle bu projeyi geliştirmemde yar
   git clone https://github.com/brylmaz/atgcase.git
 
 ```
-Bilgisayarınızda Docker Desktop yüklü olmalıdır
-daha sonra kök dizinde bulunan docker-compose.yml  dosyası bulunmaktadır. 
+Bilgisayarınızda Docker Desktop yüklü olmalıdır. atgcase dosyasının içerisine girdikten sonra kök dizinde bulunan docker-compose.yml  dosyası bulunmaktadır. 
 
 Komut satırı açın ve aşağıdaki kodu yazın
 
